@@ -16,7 +16,13 @@ The content on this website represents only the views of the players and does no
 
 - You can submit an Issue or Pull Request directly in this project. We recommend that you [click here](https://s.dayuweb.com/s/RDoXwpsh) to fill out a survey to facilitate our subsequent communication and development!
 
-
+### 技术栈 Technology Stack
+- Vue 3
+- Vite
+- Pinia
+- TypeScript
+- [TDesign](https://tdesign.tencent.com/)
+- Axios
 
 #### 贡献提交规范 Commit Specification
 - [Angular Convention](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular)
@@ -24,8 +30,8 @@ The content on this website represents only the views of the players and does no
 
 ### 开源协议 Open Source License
 
-本项目遵循 [MIT 协议](https://github.com/yzwyxjs/firefly/LICENSE)。
-This project follows the [MIT License](https://github.com/yzwyxjs/firefly/LICENSE).
+本项目遵循 [MIT 协议](LICENSE)。
+This project follows the [MIT License](LICENSE).
 
 ### 目录结构 Directory Structure
 
