@@ -1,4 +1,8 @@
+import { useLocalStorage, useTitle } from '@vueuse/core';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+
+import { localeConfigKey } from '@/locales';
+import { RouteMeta } from '@/types/interface';
 
 const env = import.meta.env.MODE || 'development';
 
@@ -30,5 +34,19 @@ export function mapModuleRouterList(modules: Record<string, unknown>): Array<Rou
   });
   return routerList;
 }
+
+router.beforeEach((to, _from, next) => {
+  const locale = useLocalStorage(localeConfigKey, 'zh_CN');
+  const title = useTitle();
+  const meta = to.meta as RouteMeta;
+  if (meta?.title) {
+    if (typeof meta.title === 'string') {
+      title.value = meta.title;
+    } else {
+      title.value = meta.title[locale.value];
+    }
+  }
+  next();
+});
 
 export default router;

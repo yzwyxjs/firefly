@@ -1,8 +1,10 @@
-import { useLocalStorage } from '@vueuse/core';
+import { useLocalStorage, useTitle } from '@vueuse/core';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { i18n, langCode, localeConfigKey } from '@/locales/index';
+import router from '@/router';
+import { RouteMeta } from '@/types/interface';
 
 export function useLocale() {
   const { locale } = useI18n({ useScope: 'global' });
@@ -14,6 +16,15 @@ export function useLocale() {
 
     locale.value = lang;
     useLocalStorage(localeConfigKey, 'zh_CN').value = lang;
+    const title = useTitle();
+    const meta = router.currentRoute.value.meta as RouteMeta;
+    if (meta?.title) {
+      if (typeof meta.title === 'string') {
+        title.value = meta.title;
+      } else {
+        title.value = meta.title[locale.value];
+      }
+    }
   }
 
   const getComponentsLocale = computed(() => {
