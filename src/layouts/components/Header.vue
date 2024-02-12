@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core';
 import { LogoGithubFilledIcon, TranslateIcon } from 'tdesign-icons-vue-next';
+import { watch } from 'vue';
 
+import MobileHeaderMenu from '@/components/mobile-header-menu/MobileHeaderMenu.vue';
 import { langList } from '@/locales';
 import { useLocale } from '@/locales/useLocale.ts';
 
@@ -8,29 +11,34 @@ const { changeLocale } = useLocale();
 const changeLang = ({ value: lang }: { value: string }) => {
   changeLocale(lang);
 };
+const isMobile = useMediaQuery('(max-width: 992px)');
 
+watch(isMobile, (newValue) => {
+  if (!newValue) {
+    // 释放禁止滚动，防止手机或平板从竖屏转换为横屏无法滚动
+    document.body.style.overflow = 'auto';
+  }
+});
 const goGithub = () => {
   window.open('https://github.com/yzwyxjs/firefly');
 };
 </script>
 
 <template>
-  <nav>
+  <nav class="nav-container">
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo">Vue 3 + Vite + TypeScript</a>
+      <a href="/" class="brand-logo">
+        <img src="@/assets/img/logo/firefly-site-logo.png" alt="站点Logo Site Logo" class="logo" />
+      </a>
       <div class="nav-right">
-        <ul id="nav-mobile" class="nav-list">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
         <ul id="nav-pc" class="nav-list">
-          <li class="nav-item">
-            <router-link to="/">
+          <li>
+            <router-link class="nav-item" to="/">
               {{ $t('layout.header.index') }}
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/about">
+          <li>
+            <router-link class="nav-item" to="/about">
               {{ $t('layout.header.aboutProject') }}
             </router-link>
           </li>
@@ -38,8 +46,9 @@ const goGithub = () => {
 
         <div class="right-btn-wrapper">
           <t-dropdown trigger="click">
-            <t-button theme="default" shape="square" variant="text">
-              <translate-icon style="font-size: 22px" />
+            <t-button theme="default" shape="square" aria-label="切换语言 Change Language" variant="text">
+              <translate-icon v-if="!isMobile" style="font-size: 22px" />
+              <translate-icon v-else style="font-size: 30px" />
             </t-button>
             <t-dropdown-menu>
               <t-dropdown-item v-for="(lang, index) in langList" :key="index" :value="lang.value" @click="changeLang">{{
@@ -48,8 +57,13 @@ const goGithub = () => {
             >
           </t-dropdown>
 
-          <t-button theme="default" shape="square" variant="text" @click="goGithub">
-            <logo-github-filled-icon style="font-size: 22px" />
+          <t-button theme="default" shape="square" variant="text" aria-label="GitHub" @click="goGithub">
+            <logo-github-filled-icon v-if="!isMobile" style="font-size: 22px" />
+            <logo-github-filled-icon v-else style="font-size: 30px" />
+          </t-button>
+
+          <t-button v-if="isMobile" theme="default" shape="square" variant="text">
+            <mobile-header-menu />
           </t-button>
         </div>
       </div>
@@ -58,85 +72,5 @@ const goGithub = () => {
 </template>
 
 <style scoped lang="less">
-@import '@/style/variables';
-nav {
-  background-color: transparent;
-  color: white;
-}
-.nav-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-}
-.select-item {
-  width: 200px;
-  color: white;
-  background-color: #333;
-  &:hover {
-    background-color: #171717;
-  }
-}
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.right-btn-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.nav-list {
-  display: flex;
-  list-style: none;
-  padding: 0;
-}
-.nav-item {
-  margin: 0 10px;
-  min-width: 93px;
-  height: 50px;
-  padding: 0 20px;
-  text-align: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-
-  &:hover {
-    color: @active-color;
-    background-color: rgba(255, 255, 255, 0.21);
-  }
-}
-.router-link-active {
-  color: @active-color;
-
-  &::after {
-    content: '';
-    width: 93px;
-    height: 3px;
-    display: block;
-    background: @active-color;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-}
-.brand-logo {
-  margin-left: 20px;
-}
-#nav-mobile {
-  display: none;
-}
-@media (max-width: 992px) {
-  #nav-mobile {
-    display: block;
-  }
-}
-@media (max-width: 600px) {
-  .brand-logo {
-    margin-left: 0;
-  }
-}
+@import 'header';
 </style>

@@ -1,0 +1,159 @@
+@import '@/style/variables';
+
+nav {
+  background-color: transparent;
+  color: white;
+}
+
+.nav-container {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-item {
+  width: 200px;
+  color: white;
+  background-color: #333;
+
+  &:hover {
+    background-color: #171717;
+  }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.right-btn-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0 10px;
+  min-width: 93px;
+  height: 50px;
+  padding: 0 20px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+
+  &:hover {
+    color: @active-color;
+    background-color: rgba(255, 255, 255, 0.21);
+  }
+}
+
+.router-link-exact-active {
+  color: @active-color;
+  font-weight: bolder;
+}
+
+#nav-pc {
+  .router-link-exact-active::after {
+    content: '';
+    width: 100%;
+    height: 3px;
+    display: block;
+    background: @active-color;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100px;
+  height: 50px;
+
+  .logo {
+    transition: all 0.3s;
+    position: absolute;
+    object-fit: contain;
+  }
+}
+
+#nav-mobile {
+  display: none;
+}
+
+@media (max-width: @screen-md) {
+  #nav-mobile {
+    display: block;
+  }
+
+  #nav-pc {
+    display: none;
+  }
+
+  .nav-wrapper {
+    padding: 10px 20px;
+  }
+
+  .brand-logo .logo {
+    left: 10px;
+    top: 5px;
+    z-index: 10;
+    height: 50px;
+  }
+}
+
+@media (min-width: @screen-md) {
+  #nav-mobile {
+    display: none;
+  }
+
+  #nav-pc {
+    display: flex;
+  }
+
+
+  .nav-wrapper {
+    padding: 0 40px;
+  }
+
+  .brand-logo .logo {
+
+    left: 20px;
+    top: 20px;
+    z-index: 10;
+    height: 100px;
+  }
+}
+
+.button-content {
+  align-items: center;
+  display: grid;
+  flex: 1 0 auto;
+  cursor: pointer;
+  grid-template-areas: 'leadingVisual text trailingVisual';
+  grid-template-columns: min-content minmax(0, auto) min-content;
+  place-content: center;
+}
