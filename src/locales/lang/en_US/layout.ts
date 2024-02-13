@@ -2,6 +2,8 @@ export default {
   header: {
     index: 'Index',
     aboutProject: 'About Project',
+    picShareZone: 'Pic Share Zone',
+    confessions: 'Confessions',
   },
   footer: {
     aboutSite: {

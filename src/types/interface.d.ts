@@ -3,6 +3,44 @@ import { LocationQueryRaw, RouteRecordName } from 'vue-router';
 
 import STYLE_CONFIG from '@/config/style';
 
+export interface GeetestResponse {
+  lot_number: string;
+  captcha_output: string;
+  pass_token: string;
+  gen_time: string;
+}
+
+export interface Page<S> {
+  countId: null;
+  /**
+   * 当前页码
+   */
+  current: number;
+  maxLimit: null;
+  optimizeCountSql: boolean;
+  /**
+   * 目前没用
+   */
+  orders: string[];
+  /**
+   * 一共多少页
+   */
+  pages: number;
+  /**
+   * 用户信息列表
+   */
+  records: S[];
+  searchCount: boolean;
+  /**
+   * 页面大小
+   */
+  size: number;
+  /**
+   * 数据库中符合条件的记录总数
+   */
+  total: number;
+}
+
 export interface RouteMeta {
   title?: string | Record<string, string>;
   icon?: string;

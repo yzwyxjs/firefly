@@ -139,8 +139,6 @@ const { locale } = useI18n();
   min-height: 100vh;
   padding: 100px 30px;
   text-align: center;
-  background: url('@/assets/img/bg/firefly-website-bgimg-3840-2160.jpg') no-repeat center center;
-  background-size: cover;
   color: #333;
 }
 

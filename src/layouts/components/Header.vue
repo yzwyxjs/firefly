@@ -1,17 +1,35 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
 import { LogoGithubFilledIcon, TranslateIcon } from 'tdesign-icons-vue-next';
-import { watch } from 'vue';
+import { onMounted, watch } from 'vue';
 
+import { getUserInfo } from '@/api/user/user-info.ts';
 import MobileHeaderMenu from '@/components/mobile-header-menu/MobileHeaderMenu.vue';
+import { ResultCode } from '@/enums/ResultCode.ts';
 import { langList } from '@/locales';
 import { useLocale } from '@/locales/useLocale.ts';
+import { useUserStore } from '@/store';
 
 const { changeLocale } = useLocale();
 const changeLang = ({ value: lang }: { value: string }) => {
   changeLocale(lang);
 };
 const isMobile = useMediaQuery('(max-width: 992px)');
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+  const userInfo = await getUserInfo();
+  console.log('userInfo', userInfo);
+  if (userInfo.code === ResultCode.USER_NOT_LOGIN.code) {
+    userStore.logout();
+    console.log('用户未登录');
+  } else if (userInfo.code === ResultCode.SUCCESS.code) {
+    userStore.userInfo = userInfo.data;
+    userStore.loginStatus = true;
+    console.log('用户已登录');
+  }
+});
 
 watch(isMobile, (newValue) => {
   if (!newValue) {
@@ -35,6 +53,16 @@ const goGithub = () => {
           <li>
             <router-link class="nav-item" to="/">
               {{ $t('layout.header.index') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link class="nav-item" to="/pic-share-zone">
+              {{ $t('layout.header.picShareZone') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link class="nav-item" to="/confessions">
+              {{ $t('layout.header.confessions') }}
             </router-link>
           </li>
           <li>

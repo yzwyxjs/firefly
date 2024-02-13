@@ -4,9 +4,20 @@
   "version": "0.0.0",
   "description": "萤火微光 永不燃灭 流光溢彩 萤门永存 Firefly's faint glow, never extinguished. Radiant and splendid, the Firefly Fellowship prevails.",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "dev:mock": "vite --open --mode mock",
+    "dev": "vite --open --mode development",
+    "dev:linux": "vite --mode development",
+    "build:test": "vite build --mode test",
+    "build": "vite build --mode release",
+    "preview": "vite preview",
+    "lint": "eslint --ext .vue,.js,.jsx,.ts,.tsx ./ --max-warnings 0",
+    "lint:fix": "eslint --ext .vue,.js,jsx,.ts,.tsx ./ --max-warnings 0 --fix",
+    "stylelint": "stylelint src/**/*.{html,vue,sass,less}",
+    "stylelint:fix": "stylelint --fix src/**/*.{html,vue,vss,sass,less}",
+    "prepare": "node -e \"if(require('fs').existsSync('.git')){process.exit(1)}\" || is-ci || husky install",
+    "site:preview": "npm run build && cp -r dist _site",
+    "test": "echo \"no test specified,work in process\"",
+    "test:coverage": "echo \"no test:coverage specified,work in process\""
   },
   "dependencies": {
     "@vueuse/core": "^10.7.2",

@@ -2,6 +2,8 @@ export default {
   header: {
     index: '首页',
     aboutProject: '关于本项目',
+    picShareZone: '图片墙',
+    confessions: '表白墙',
   },
   footer: {
     aboutSite: {

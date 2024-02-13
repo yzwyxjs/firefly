@@ -27,6 +27,7 @@ defineProps({
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin: 20px;
   }
 }
 
@@ -38,7 +39,6 @@ defineProps({
 
 .contributor-item {
   height: 100%;
-  margin: 20px;
   border: 1px solid #f0f0f0;
   border-radius: 10px;
   gap: 10px;

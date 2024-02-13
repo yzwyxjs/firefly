@@ -46,7 +46,7 @@ watch(isMobileMenuExpand, (newValue) => {
         style="z-index: 8"
         @click.self="isMobileMenuExpand = false"
       >
-        <div class="mobile-menu-wrapper">
+        <div class="mobile-menu-wrapper mobile-menu-content">
           <ul id="nav-pc" class="nav-list">
             <li class="nav-item">
               <router-link to="/">
@@ -63,6 +63,16 @@ watch(isMobileMenuExpand, (newValue) => {
             <li class="nav-mobile-item">
               <router-link to="/">
                 {{ $t('layout.header.index') }}
+              </router-link>
+            </li>
+            <li class="nav-mobile-item">
+              <router-link to="/pic-share-zone">
+                {{ $t('layout.header.picShareZone') }}
+              </router-link>
+            </li>
+            <li class="nav-mobile-item">
+              <router-link to="/confessions">
+                {{ $t('layout.header.confessions') }}
               </router-link>
             </li>
             <li class="nav-mobile-item">

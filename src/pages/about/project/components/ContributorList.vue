@@ -14,6 +14,7 @@ import { contributorListData } from '@/pages/about/project/components/Contributo
 
 <style scoped lang="less">
 .contributor-list-container {
+  margin-top: 20px;
   h2 {
     text-align: center;
   }
@@ -24,7 +25,7 @@ import { contributorListData } from '@/pages/about/project/components/Contributo
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }
 </style>

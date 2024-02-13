@@ -1,0 +1,26 @@
+.img-content {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  justify-content: flex-start;
+  gap: 10px;
+  .img-item {
+    width: calc(33% - 10px);
+    object-fit: contain;
+    //border: 1px solid #ad2626;
+    background-color: var(--td-brand-color-1);
+    border-radius: 16px;
+    cursor: zoom-in;
+    text-align: center;
+    img {
+      margin: 0 auto;
+      width: 100%;
+      border-radius: 10px;
+      height: 100%;
+      cursor: zoom-in;
+      max-height: 200px;
+      object-fit: contain;
+    }
+  }
+}
