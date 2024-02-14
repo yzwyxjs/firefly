@@ -7,6 +7,7 @@ const Api = {
   add: '/add',
   delete: '/delete',
   list: '/list',
+  appeal: '/appeal',
 };
 
 export function addPicShare(picShare: PicShare, geetestData: GeetestResponse) {
@@ -24,5 +25,11 @@ export function deletePicShare(picShareId: string) {
 export function listPicShare(pageNum: number) {
   return request.get<Page<PicShare>>({
     url: `${picShareApiPrefix}${Api.list}/${pageNum}`,
+  });
+}
+
+export function appealPicShare(picShareId: string) {
+  return request.put<string>({
+    url: `${picSharePrefix}${Api.appeal}/${picShareId}`,
   });
 }

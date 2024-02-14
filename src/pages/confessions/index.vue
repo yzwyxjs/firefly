@@ -6,6 +6,7 @@ import { onMounted, ref, watch } from 'vue';
 
 import { listConfession } from '@/api/confession/index.ts';
 import MyInfo from '@/components/my-info-card/MyInfo.vue';
+import { ReviewStatus } from '@/enums/ReviewStatus.ts';
 import ConfessionItem from '@/pages/confessions/components/ConfessionItem.vue';
 import router from '@/router';
 import { useUserStore } from '@/store';
@@ -72,6 +73,17 @@ const mergeAndDeduplicate = (newRecords: Confession[], total: number) => {
   }
 };
 
+const handleDeleteItem = (deletedId: string) => {
+  confessionListData.value = confessionListData.value.filter((item) => item.id !== deletedId);
+};
+const handleAppealClick = (id: string) => {
+  confessionListData.value = confessionListData.value.map((item) => {
+    if (item.id === id) {
+      item.status = ReviewStatus.PENDING.code;
+    }
+    return item;
+  });
+};
 onMounted(async () => {
   loading.value = true;
   const pageData = await listConfession(pageNum.value);
@@ -115,7 +127,13 @@ onMounted(async () => {
           <h1 style="margin-top: 20px; color: black">加载中</h1>
         </div>
         <div v-else>
-          <confession-item v-for="item in confessionListData" :key="item.id" :confession="item" />
+          <confession-item
+            v-for="item in confessionListData"
+            :key="item.id"
+            :confession="item"
+            @appeal-confession="handleAppealClick"
+            @delete-confession="handleDeleteItem"
+          />
           <div ref="loadLineRef">
             <t-button
               v-if="!noMoreData && !loading"

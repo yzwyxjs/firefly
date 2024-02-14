@@ -6,6 +6,7 @@ import { onMounted, ref, watch } from 'vue';
 
 import { listPicShare } from '@/api/pic-share-zone';
 import MyInfo from '@/components/my-info-card/MyInfo.vue';
+import { ReviewStatus } from '@/enums/ReviewStatus.ts';
 import PicShareItem from '@/pages/pic-share-zone/components/PicShareItem.vue';
 import router from '@/router';
 import { useUserStore } from '@/store';
@@ -22,6 +23,9 @@ const loading = ref(false);
 const noMoreData = ref(false);
 const loadLineVisible = useElementVisibility(loadLineRef);
 
+const handleDeleteItem = (deletedId: string) => {
+  picShareListData.value = picShareListData.value.filter((item) => item.id !== deletedId);
+};
 watch(loadLineVisible, async (visible) => {
   if (visible && !loading.value && !noMoreData.value) {
     loading.value = true;
@@ -74,6 +78,14 @@ const mergeAndDeduplicate = (newRecords: PicShare[], total: number) => {
   }
 };
 
+const handleAppealClick = (id: string) => {
+  picShareListData.value = picShareListData.value.map((item) => {
+    if (item.id === id) {
+      item.status = ReviewStatus.PENDING.code;
+    }
+    return item;
+  });
+};
 onMounted(async () => {
   loading.value = true;
   const pageData = await listPicShare(pageNum.value);
@@ -117,7 +129,13 @@ onMounted(async () => {
           <h1 style="margin-top: 20px; color: black">加载中</h1>
         </div>
         <div v-else>
-          <pic-share-item v-for="item in picShareListData" :key="item.id" :pic-share="item" />
+          <pic-share-item
+            v-for="item in picShareListData"
+            :key="item.id"
+            :pic-share="item"
+            @appeal-pic-share="handleAppealClick"
+            @delete-pic-share="handleDeleteItem"
+          />
           <div ref="loadLineRef">
             <t-button
               v-if="!noMoreData && !loading"

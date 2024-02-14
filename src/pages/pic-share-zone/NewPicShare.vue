@@ -165,8 +165,13 @@ const captchaConfig = ref({
             <div>请勿上传邪典、色情、低俗等违法犯罪内容！</div>
           </template>
         </t-form-item>
-        <t-form-item label="图片介绍" name="content">
-          <t-textarea v-model="formData.content" :autosize="{ minRows: 10, maxRows: 18 }" type="textarea" />
+        <t-form-item label="图片介绍（不得超过1000字）" name="content">
+          <t-textarea
+            v-model="formData.content"
+            :maxlength="1000"
+            :autosize="{ minRows: 10, maxRows: 18 }"
+            type="textarea"
+          />
         </t-form-item>
         <t-form-item label="权限" name="visibility">
           <t-radio-group v-model="formData.visibility">

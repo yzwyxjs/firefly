@@ -7,6 +7,7 @@ const Api = {
   add: '/add',
   delete: '/delete',
   list: '/list',
+  appeal: '/appeal',
 };
 
 export function addConfession(confession: Confession, geetestData: GeetestResponse) {
@@ -24,5 +25,11 @@ export function deleteConfession(confessionId: string) {
 export function listConfession(pageNum: number) {
   return request.get<Page<Confession>>({
     url: `${confessionApiPrefix}${Api.list}/${pageNum}`,
+  });
+}
+
+export function appealConfession(confessionId: string) {
+  return request.put<string>({
+    url: `${confessionPrefix}${Api.appeal}/${confessionId}`,
   });
 }

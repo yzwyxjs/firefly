@@ -4,6 +4,7 @@ export interface PicShare {
   id: string;
   content: string;
   imgList: string[];
+  blockImgList?: string[];
   createTime: string;
   creator: number;
   /**

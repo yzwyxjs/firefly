@@ -100,10 +100,15 @@ const captchaConfig = ref({
         @submit="onSubmit"
       >
         <t-form-item label="标题（不超过50字）" name="title">
-          <t-input v-model="formData.title" size="large" />
+          <t-input v-model="formData.title" :maxlength="50" size="large" />
         </t-form-item>
         <t-form-item label="内容（不超过1000字）" name="content">
-          <t-textarea v-model="formData.content" :autosize="{ minRows: 10, maxRows: 18 }" type="textarea" />
+          <t-textarea
+            v-model="formData.content"
+            :maxlength="1000"
+            :autosize="{ minRows: 10, maxRows: 18 }"
+            type="textarea"
+          />
         </t-form-item>
         <t-form-item label="权限" name="visibility">
           <t-radio-group v-model="formData.visibility">
