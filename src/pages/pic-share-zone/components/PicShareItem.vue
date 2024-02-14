@@ -40,9 +40,7 @@ const handleReportClick = () => {
     reportDiaVisible.value = true;
   } else {
     MessagePlugin.warning('请先登录再进行举报');
-    if (isMobile.value) {
-      router.push('/login');
-    }
+    userStore.goLoginPage();
   }
 };
 const handleDeleteClick = () => {
@@ -164,7 +162,12 @@ onMounted(() => {
       <div class="img-content">
         <t-image-viewer v-model:visible="picViewVisible" :default-index="0" :images="previewImgList">
           <template #trigger>
-            <div v-for="(img, index) in picShare.imgList" :key="index" class="img-item" @click="handleClickImg">
+            <div
+              v-for="(img, index) in picShare.imgList"
+              :key="index"
+              class="img-item normal-img"
+              @click="handleClickImg"
+            >
               <img alt="图片" :src="`${imgPrefix}/pic/${img}`" class="img" />
             </div>
             <div v-for="(img, index) in picShare.blockImgList" :key="index" class="img-item blocked-img">

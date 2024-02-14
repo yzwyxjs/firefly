@@ -1,4 +1,4 @@
-import { loginApiPrefix } from '@/api/user/config.ts';
+import { loginApiPrefix, userPrefix } from '@/api/user/config.ts';
 import { Result } from '@/types/axios';
 import { User } from '@/types/user';
 import { MobileLoginTicket } from '@/types/user/login.ts';
@@ -10,12 +10,18 @@ const Api = {
   uploadTicketByH5: '/uploadTicketByH5',
   verifyMobileLoginTicket: '/verifyMobileLoginTicket',
   loginStatus: '/loginStatus',
+  userInfo: '/user-info',
 };
 
-export function loginByWxCode(code: string, loginType: 'open' | 'mp') {
-  return request.post<User>({
-    url: `${loginApiPrefix}${Api.loginByWxCode}/${code}/${loginType}`,
-  });
+export function loginByWxCode(code: string, loginType: 'open' | 'mp' | null) {
+  return request.post<Result<User>>(
+    {
+      url: `${loginApiPrefix}${Api.loginByWxCode}/${code}/${loginType}`,
+    },
+    {
+      isTransformResponse: false,
+    },
+  );
 }
 
 export function getMobileLoginTicket() {
@@ -25,19 +31,28 @@ export function getMobileLoginTicket() {
 }
 
 export function uploadTicketByH5(ticket: string, code: string) {
-  return request.post<string>({
-    url: `${loginApiPrefix}${Api.uploadTicketByH5}/${ticket}/${code}`,
-  });
+  return request.post<Result<User>>(
+    {
+      url: `${loginApiPrefix}${Api.uploadTicketByH5}/${ticket}/${code}`,
+    },
+    {
+      isTransformResponse: false,
+    },
+  );
 }
 
 export function verifyMobileLoginTicket() {
-  return request.get<User>({
-    url: `${loginApiPrefix}${Api.verifyMobileLoginTicket}`,
-  });
+  return request.get<Result<User>>(
+    {
+      url: `${loginApiPrefix}${Api.verifyMobileLoginTicket}`,
+    },
+    {
+      isTransformResponse: false,
+    },
+  );
 }
 
 export function getUserInfo() {
-  console.log('loginApiPrefix', loginApiPrefix);
   return request.get<Result<User>>(
     {
       url: `${loginApiPrefix}${Api.loginStatus}`,
@@ -46,4 +61,15 @@ export function getUserInfo() {
       isTransformResponse: false,
     },
   );
+}
+
+export function logoutApi() {
+  return request.delete<void>({
+    url: `${userPrefix}/logout`,
+  });
+}
+export function fetchUserInfoById(uid: string) {
+  return request.get<User>({
+    url: `${loginApiPrefix}${Api.userInfo}/${uid}`,
+  });
 }

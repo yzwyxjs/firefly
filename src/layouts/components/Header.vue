@@ -20,14 +20,11 @@ const userStore = useUserStore();
 
 onMounted(async () => {
   const userInfo = await getUserInfo();
-  console.log('userInfo', userInfo);
   if (userInfo.code === ResultCode.USER_NOT_LOGIN.code) {
-    userStore.logout();
-    console.log('用户未登录');
+    userStore.clearToken();
   } else if (userInfo.code === ResultCode.SUCCESS.code) {
     userStore.userInfo = userInfo.data;
     userStore.loginStatus = true;
-    console.log('用户已登录');
   }
 });
 

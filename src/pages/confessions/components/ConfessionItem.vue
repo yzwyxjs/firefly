@@ -28,9 +28,7 @@ const handleReportClick = () => {
     reportDiaVisible.value = true;
   } else {
     MessagePlugin.warning('请先登录再进行举报');
-    if (isMobile.value) {
-      router.push('/login');
-    }
+    userStore.goLoginPage();
   }
 };
 const handleDeleteClick = () => {

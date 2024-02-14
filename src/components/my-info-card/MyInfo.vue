@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DialogPlugin, MessagePlugin } from '_tdesign-vue-next@1.8.1@tdesign-vue-next';
+
 import router from '@/router';
 import { useUserStore } from '@/store';
 
@@ -14,8 +16,25 @@ const handlePostNewClick = () => {
 };
 const handleLoginClick = () => {
   // userStore.loginStatus = !userStore.loginStatus;
-  window.location.href =
-    'https://open.weixin.qq.com/connect/qrconnect?appid=wxcaa6212a0fff948c&redirect_uri=https://authserver.dayuweb.com/firefly_login_proxy&response_type=code&scope=snsapi_login&state=web_login#wechat_redirect';
+  userStore.goLoginPage();
+};
+
+const handleEditUserInfoClick = () => {
+  MessagePlugin.error('该功能还没有做完，呜呜呜～');
+};
+const handleLogoutClick = () => {
+  const confirmDia = DialogPlugin({
+    header: '退出登录',
+    body: '确定要退出登录吗？',
+    confirmBtn: '确定',
+    onConfirm: async ({ e }) => {
+      userStore.logout();
+      confirmDia.hide();
+    },
+    onClose: ({ e, trigger }) => {
+      confirmDia.hide();
+    },
+  });
 };
 </script>
 
@@ -24,15 +43,22 @@ const handleLoginClick = () => {
     <h2 v-if="!userStore.loginStatus">请登录后发表内容</h2>
     <!--    <h2 v-else>请登录后发表内容</h2>-->
     <div v-if="userStore.loginStatus">
-      <t-button theme="primary" variant="text" style="position: absolute; right: 10px; top: 10px"> 编辑资料 </t-button>
+      <t-button
+        theme="primary"
+        variant="text"
+        style="position: absolute; right: 10px; top: 10px"
+        @click="handleEditUserInfoClick"
+      >
+        编辑资料
+      </t-button>
       <t-avatar class="avatar" :image="userStore.userInfo.avatar" size="80px" />
       <div class="nickname">{{ userStore.userInfo.nickname }}</div>
       <div class="reg-time">{{ userStore.userInfo.registerTime }} 加入本站</div>
-      <div class="signature">{{ userStore.userInfo.signature || '这个用户比较懒，还没有填写个人签名～' }}</div>
+      <div class="signature">{{ userStore.userInfo.signature || '这个用户比较懒，还没有填写个性签名～' }}</div>
     </div>
     <div v-if="userStore.loginStatus" style="display: flex; gap: 20px; justify-content: center; margin-top: 20px">
       <t-button @click="handlePostNewClick">发布内容</t-button>
-      <t-button theme="danger" variant="outline" @click="handleLoginClick">退出登录</t-button>
+      <t-button theme="danger" variant="outline" @click="handleLogoutClick">退出登录</t-button>
     </div>
     <div v-else>
       <t-button size="large" @click="handleLoginClick">微信扫码登录</t-button>

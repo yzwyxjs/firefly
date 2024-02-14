@@ -7,6 +7,7 @@ const Api = {
   add: '/add',
   delete: '/delete',
   list: '/list',
+  listByUid: '/listByUid',
   appeal: '/appeal',
 };
 
@@ -25,6 +26,11 @@ export function deletePicShare(picShareId: string) {
 export function listPicShare(pageNum: number) {
   return request.get<Page<PicShare>>({
     url: `${picShareApiPrefix}${Api.list}/${pageNum}`,
+  });
+}
+export function listPicShareByUid(pageNum: number, uid: string) {
+  return request.get<Page<PicShare>>({
+    url: `${picShareApiPrefix}${Api.listByUid}/${uid}/${pageNum}`,
   });
 }
 

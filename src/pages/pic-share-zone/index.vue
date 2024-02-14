@@ -14,7 +14,6 @@ import { Confession } from '@/types/confession';
 import { PicShare } from '@/types/pic-share';
 
 const isMobile = useMediaQuery('(max-width: 992px)');
-const picShareListData = ref<PicShare[]>([]);
 
 const loadLineRef = ref(null);
 const pageNum = ref(1);
@@ -22,6 +21,7 @@ const totalNum = ref(0);
 const loading = ref(false);
 const noMoreData = ref(false);
 const loadLineVisible = useElementVisibility(loadLineRef);
+const picShareListData = ref<PicShare[]>([]);
 
 const handleDeleteItem = (deletedId: string) => {
   picShareListData.value = picShareListData.value.filter((item) => item.id !== deletedId);
@@ -31,7 +31,6 @@ watch(loadLineVisible, async (visible) => {
     loading.value = true;
     pageNum.value += 1;
     const pageData = await listPicShare(pageNum.value);
-    console.log(pageData);
     totalNum.value = pageData.total;
     mergeAndDeduplicate(pageData.records, pageData.total);
     loading.value = false;
@@ -43,9 +42,7 @@ const handleAddNewClick = () => {
     router.push('/confessions/new');
   } else {
     MessagePlugin.warning('请先登录');
-    if (isMobile.value) {
-      router.push('/login');
-    }
+    userStore.goLoginPage();
   }
 };
 const handleBackTop = () => {

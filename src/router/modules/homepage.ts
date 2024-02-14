@@ -3,8 +3,12 @@ import AboutProject from '@/pages/about/project/index.vue';
 import Confessions from '@/pages/confessions/index.vue';
 import NewConfession from '@/pages/confessions/NewConfession.vue';
 import Index from '@/pages/homepage/index.vue';
+import H5Login from '@/pages/login/h5/index.vue';
+import WxLogin from '@/pages/login/wx/index.vue';
+import WxOpenLogin from '@/pages/login/wx-open/index.vue';
 import PicShareZone from '@/pages/pic-share-zone/index.vue';
 import NewPicShare from '@/pages/pic-share-zone/NewPicShare.vue';
+import UserProfile from '@/pages/user-profile/index.vue';
 
 export default [
   {
@@ -60,9 +64,22 @@ export default [
         component: NewPicShare,
         name: 'NewPicShare',
         meta: {
+          needLogin: true,
           title: {
             zh_CN: '发布图片',
             en_US: 'New Pic Share',
+          },
+          orderNo: 0,
+        },
+      },
+      {
+        path: 'user/:uid',
+        component: UserProfile,
+        name: 'UserProfile',
+        meta: {
+          title: {
+            zh_CN: '用户主页',
+            en_US: 'User Profile',
           },
           orderNo: 0,
         },
@@ -84,12 +101,62 @@ export default [
         component: NewConfession,
         name: 'NewConfession',
         meta: {
+          needLogin: true,
           title: {
             zh_CN: '发布表白墙',
             en_US: 'New Confession',
           },
           orderNo: 0,
         },
+      },
+      {
+        path: 'login',
+        name: 'Layout',
+        meta: {
+          title: {
+            zh_CN: '登录',
+            en_US: 'Login',
+          },
+          orderNo: 0,
+        },
+        children: [
+          {
+            path: 'open',
+            component: WxOpenLogin,
+            name: 'WxOpenLogin',
+            meta: {
+              title: {
+                zh_CN: '登录中',
+                en_US: 'Login Redirecting',
+              },
+              orderNo: 0,
+            },
+          },
+          {
+            path: 'wx',
+            component: WxLogin,
+            name: 'WxLogin',
+            meta: {
+              title: {
+                zh_CN: '登录',
+                en_US: 'Login',
+              },
+              orderNo: 0,
+            },
+          },
+          {
+            path: 'h5',
+            component: H5Login,
+            name: 'H5Login',
+            meta: {
+              title: {
+                zh_CN: '登录',
+                en_US: 'Login',
+              },
+              orderNo: 0,
+            },
+          },
+        ],
       },
     ],
   },

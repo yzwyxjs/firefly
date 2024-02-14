@@ -1,6 +1,7 @@
 import { confessionApiPrefix, confessionPrefix } from '@/api/confession/config.ts';
 import { Confession } from '@/types/confession';
 import { GeetestResponse, Page } from '@/types/interface';
+import { PicShare } from '@/types/pic-share';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -8,6 +9,7 @@ const Api = {
   delete: '/delete',
   list: '/list',
   appeal: '/appeal',
+  listByUid: '/listByUid',
 };
 
 export function addConfession(confession: Confession, geetestData: GeetestResponse) {
@@ -31,5 +33,10 @@ export function listConfession(pageNum: number) {
 export function appealConfession(confessionId: string) {
   return request.put<string>({
     url: `${confessionPrefix}${Api.appeal}/${confessionId}`,
+  });
+}
+export function listConfessionByUid(pageNum: number, uid: string) {
+  return request.get<Page<PicShare>>({
+    url: `${confessionApiPrefix}${Api.listByUid}/${uid}/${pageNum}`,
   });
 }

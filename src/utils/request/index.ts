@@ -5,6 +5,7 @@ import { MessagePlugin } from 'tdesign-vue-next';
 
 import { TOKEN_NAME } from '@/config/global';
 import router from '@/router';
+import { useUserStore } from '@/store';
 
 import { VAxios } from './Axios';
 import type { AxiosTransform, CreateAxiosOptions } from './AxiosTransform';
@@ -130,7 +131,8 @@ const transform: AxiosTransform = {
     const { config, response } = error;
     if (response) {
       if (response.status === 401) {
-        document.location.href = `https://authback.dayuweb.com/sso/check?redirectUrl=${document.location.href}`;
+        // document.location.href = `https://authback.dayuweb.com/sso/check?redirectUrl=${document.location.href}`;
+        useUserStore().goLoginPage();
         return;
       }
       if (response.status === 403) {

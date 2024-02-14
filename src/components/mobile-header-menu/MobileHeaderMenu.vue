@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { DialogPlugin } from '_tdesign-vue-next@1.8.1@tdesign-vue-next';
 import { useMediaQuery } from '@vueuse/core';
+import { LogoutIcon } from 'tdesign-icons-vue-next';
 import { ref, watch } from 'vue';
+
+import { deleteConfession } from '@/api/confession';
+import { useUserStore } from '@/store';
 
 const isMobile = useMediaQuery('(max-width: 992px)');
 const isMobileMenuExpand = ref(false);
-
+const userStore = useUserStore();
 watch(isMobileMenuExpand, (newValue) => {
   if (newValue) {
     // 阻止滚动穿透
@@ -14,6 +19,21 @@ watch(isMobileMenuExpand, (newValue) => {
     document.body.style.overflow = 'auto';
   }
 });
+
+const handleLogoutClick = () => {
+  const confirmDia = DialogPlugin({
+    header: '退出登录',
+    body: '确定要退出登录吗？',
+    confirmBtn: '确定',
+    onConfirm: async ({ e }) => {
+      userStore.logout();
+      confirmDia.hide();
+    },
+    onClose: ({ e, trigger }) => {
+      confirmDia.hide();
+    },
+  });
+};
 </script>
 
 <template>
@@ -47,18 +67,6 @@ watch(isMobileMenuExpand, (newValue) => {
         @click.self="isMobileMenuExpand = false"
       >
         <div class="mobile-menu-wrapper mobile-menu-content">
-          <ul id="nav-pc" class="nav-list">
-            <li class="nav-item">
-              <router-link to="/">
-                {{ $t('layout.header.index') }}
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/about">
-                {{ $t('layout.header.aboutProject') }}
-              </router-link>
-            </li>
-          </ul>
           <ul class="mobile-nav-list">
             <li class="nav-mobile-item">
               <router-link to="/">
@@ -81,6 +89,38 @@ watch(isMobileMenuExpand, (newValue) => {
               </router-link>
             </li>
           </ul>
+          <div
+            v-if="userStore.loginStatus"
+            style="padding: 10px; display: flex; justify-content: space-between; align-items: center"
+          >
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <t-avatar size="60px" :image="`${userStore.userInfo.avatar}`"></t-avatar>
+              <div style="margin-left: 10px">
+                <div style="font-size: 16px">{{ userStore.userInfo.nickname }}</div>
+                <div style="font-size: 14px; color: #ababab">UID：{{ userStore.userInfo.uid }}</div>
+              </div>
+            </div>
+            <div style="margin-left: 20px">
+              <t-button size="large" variant="text" shape="circle" style="color: #9f9f9f" @click="handleLogoutClick">
+                <logout-icon style="font-size: 22px" />
+              </t-button>
+            </div>
+          </div>
+          <div v-else style="padding: 10px; display: flex; justify-content: space-between; align-items: center">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-left: 30px;
+                position: relative;
+              "
+            >
+              <div @click="userStore.goLoginPage()">
+                <div style="font-size: 16px">登录</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Transition>
@@ -131,6 +171,9 @@ watch(isMobileMenuExpand, (newValue) => {
   margin: 0 auto;
   z-index: 9999;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
 }
 

@@ -43,6 +43,7 @@ export interface Page<S> {
 
 export interface RouteMeta {
   title?: string | Record<string, string>;
+  needLogin?: boolean;
   icon?: string;
   expanded?: boolean;
   orderNo?: number;

@@ -25,7 +25,6 @@ watch(loadLineVisible, async (visible) => {
     loading.value = true;
     pageNum.value += 1;
     const pageData = await listConfession(pageNum.value);
-    console.log(pageData);
     totalNum.value = pageData.total;
     mergeAndDeduplicate(pageData.records, pageData.total);
     loading.value = false;
@@ -37,9 +36,7 @@ const handleAddNewClick = () => {
     router.push('/confessions/new');
   } else {
     MessagePlugin.warning('请先登录');
-    if (isMobile.value) {
-      router.push('/login');
-    }
+    userStore.goLoginPage();
   }
 };
 const handleBackTop = () => {
